@@ -1,0 +1,6 @@
+*.html~
+*.old
+*.pyc
+*.py~
+db.sqlite3*
+.ropeproject/

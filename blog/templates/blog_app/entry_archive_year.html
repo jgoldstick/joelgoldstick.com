@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+        {% block head %}
+        <title>joelgoldstick.com - Entries index</title>
+        {% endblock %}
+        {% block content %}
+        <h1>Entries index</h1>
+        {% for entry in date_list %}
+            <h2>{{entry.title}}</h2>
+            <p class='published-on'>Published on {{entry.pub_date|date:"F j, Y"}}</p>
+            {% if entry.excerpt_html %}
+                {{ entry.excerpt_html|safe}}
+            {% else %}
+                {{ entry.body_html|truncatewords_html:'20'|safe}}
+            {% endif %}
+            <p><a  href="{{ entry.get_absolute_url }}">Read full entry</a></p>
+            
+            <p>date_list: {{ date_list }}</p>
+            <p>year: {{ year }}</p>
+            <p>object_list: {{ object_list }}</p>
+        {% endfor %}
+        {% endblock %}
+

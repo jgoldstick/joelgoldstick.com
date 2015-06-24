@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+    {% block head %}
+        <title>joelgoldsick.com - {{entry.title}}</title>
+    {% endblock %}
+        {% block content %}
+        <p>This is 'entry_detail_generic.html'</p>
+        <h1>{{entry.title}}</h1>
+            <p class='published-on'>Published on {{entry.pub_date|date:"F j, Y"}}</p>
+                {{ entry.body_html|safe}}
+        {% endblock %}
+

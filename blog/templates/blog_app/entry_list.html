@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h2>Blog Entries</h2>
+    <ul>
+        {% for entry in object_list %}
+            <li>{{ entry.title }} published: {{ entry.pub_date }}</li>
+        {% endfor %}
+    </ul>
+{% endblock %}
+
