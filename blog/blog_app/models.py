@@ -3,7 +3,7 @@ from django.contrib import admin
 from markdown import markdown
 import datetime
 from django.contrib.auth.models import User
-from tagging.fields import TagField
+#from tagging.fields import TagField
 
 # Create your models here.
 

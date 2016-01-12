@@ -6,7 +6,7 @@ from django.contrib import admin, admindocs
 import blog_app
 admin.autodiscover()
 
-urlpatterns = patterns('',
+urlpatterns = [
 
     # Uncomment the admin/doc line below to enable admin documentation:
     url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
@@ -15,5 +15,5 @@ urlpatterns = patterns('',
     url(r'^blog/', include('blog_app.urls')) ,
     url(r'^user/', include('user_app.urls')),
     #url(r'^', include(blog.blog_app.urls)),
-)
+]
 

@@ -1,7 +1,9 @@
 # Create your views here.
 from django.http import HttpResponseRedirect
 from django.shortcuts import render_to_response
-from django.core.context_processors import csrf
+# from django.core.context_processors import csrf
+# above depricated, and gone in 1.10
+from django.template.context_processors import csrf
 from django.core.urlresolvers import reverse
 from django.contrib.syndication.views import Feed
 # from django.contrib.auth.decorators import login_required

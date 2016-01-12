@@ -32,7 +32,7 @@ TEMPLATE_DIRS = (
 STATIC_URL = '/static/'
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, "static"),
-    '/var/www/static/',
+#    '/var/www/static/',
 )
 # for email from gmail
 EMAIL_HOST = 'smtp.gmail.com'
@@ -55,6 +55,13 @@ DEBUG = True
 
 TEMPLATE_DEBUG = True
 
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'APP_DIRS': True,
+    },
+]
+
 ALLOWED_HOSTS = []
 
 SITE_ID = 1
@@ -69,6 +76,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.auth.context_processors.auth',
     'django.contrib.sites',
     'blog_app',
     'debug_toolbar',
@@ -117,4 +125,4 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATIC_ROOT = ""
-# STATIC_FILE_DIRS = ('assets', os.path.join(BASE_DIR, 'static'))
+STATIC_FILE_DIRS = ('assets', os.path.join(BASE_DIR, 'static'))
