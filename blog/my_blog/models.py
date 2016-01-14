@@ -12,8 +12,8 @@ class Category(models.Model):
     title = models.CharField(max_length=250, help_text="250 Characters Max")
     slug = models.SlugField(unique=True,
         help_text="Suggested value generated from title. Must be unique.")
-    description = models.CharField(max_length=100)
-    #description = models.TextField()
+    #description = models.CharField(max_length=100)
+    description = models.TextField()
 
     def __unicode__(self):
         return self.title
@@ -47,7 +47,7 @@ class Entry(models.Model):
     pub_date = models.DateTimeField(default=datetime.datetime.now)
     modified_date = models.DateTimeField(default=datetime.datetime.now)
     author = models.ForeignKey(User)
-    #enable_comments = models.BooleanField(default=True)
+    enable_comments = models.BooleanField(default=True)
     featured = models.BooleanField(default=False)
     status = models.IntegerField(choices=STATUS_CHOICES, default=LIVE_STATUS)
     categories = models.ManyToManyField(Category)
