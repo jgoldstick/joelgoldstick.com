@@ -3,7 +3,8 @@ from django.conf.urls import patterns, include, url
 # Uncomment the next two lines to enable the admin:
 from django.contrib import admin, admindocs
 
-import blog_app
+#import blog_app
+import my_blog
 admin.autodiscover()
 
 urlpatterns = [
@@ -12,8 +13,7 @@ urlpatterns = [
     url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
     url(r'^admin/', include(admin.site.urls)),
 
-    url(r'^blog/', include('blog_app.urls')) ,
-    url(r'^user/', include('user_app.urls')),
-    #url(r'^', include(blog.blog_app.urls)),
+    #url(r'^blog/', include('blog_app.urls')) ,
+    url(r'^blog/', include('my_blog.urls')) ,
 ]
 
