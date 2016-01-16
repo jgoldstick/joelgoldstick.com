@@ -63,6 +63,10 @@ def entries_by_category(request, category):
     return render_to_response('blog_app/categories_list.html',
                               {'categories': Category.objects.all().filter(title=category)})
 
+def links_by_category(request, category):
+    return render_to_response('blog_app/categories_list.html',
+                              {'categories': Links.objects.all().filter(title=category)})
+
 
 class LatestEntriesFeed(Feed):
     title = "JoelGoldstick.com"

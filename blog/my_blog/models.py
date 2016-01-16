@@ -81,11 +81,16 @@ admin.site.register(Entry, EntryAdmin)
 class Link(models.Model):
     title = models.CharField(max_length=250)
     description = models.TextField(blank=True)
-    description_html = models.TextField(blank=True)
     url = models.URLField(unique=True)
-    posted_by = models.ForeignKey(User)
     pub_date = models.DateTimeField(default=datetime.datetime.now)
-    slug = models.SlugField(unique_for_date='pub_date')
-    # tags = TagField()
-    enable_comments = models.BooleanField(default=False)
-    post_elsewhere = models.BooleanField(default=False)
+    categories = models.ManyToManyField(Category)
+
+    def __unicode__(self):
+        return self.title
+
+
+class LinkAdmin(admin.ModelAdmin):
+    list_display = ['title']
+    ordering = ['title']
+    
+admin.site.register(Link, LinkAdmin)
