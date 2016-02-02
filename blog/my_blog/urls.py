@@ -3,7 +3,7 @@ from django.conf.urls import patterns, url, include
 from my_blog import views
 from django.contrib.auth.decorators import login_required
 
-urlpatterns = [ 
+urlpatterns = [
     url(r'^$', views.entries_index, name="index"),
     url(r'^(?P<year>\d{4})/(?P<month>\w{3})/(?P<day>\d{2})/(?P<slug>[-\w]+)/$', views.entry_detail),
     url(r'^categories/$', views.category_list),
@@ -13,5 +13,5 @@ urlpatterns = [
     url(r'^cbv/list/$', views.EntryList.as_view()),
     url(r'^cbv/create/$', login_required(views.EntryCreate.as_view())),
     url(r'^cbv/update/(?P<pk>\d+)/$', login_required(views.EntryUpdate.as_view())),
-    url(r'^cbv/delete$', views.EntryList.as_view()),
+    url(r'^cbv/delete$/', views.EntryList.as_view()),
 ]
