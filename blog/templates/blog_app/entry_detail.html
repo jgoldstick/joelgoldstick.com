@@ -10,6 +10,11 @@
         {% endfor %}
         </p>
         <p class='published-on'>Published on {{entry.pub_date|date:"F j, Y"}}</p>
+        {% if entry.modified_date %}
+        <p class='published-on'>Last Modified on {{entry.modified_date|date:"F j, Y"}}</p>
+        {% else %}
+        <p class='published-on'>Last Modified on {{entry.pub_date|date:"F j, Y"}}</p>
+        {% endif %}
         {{ entry.body_html|safe}}
     {% endblock %}
 

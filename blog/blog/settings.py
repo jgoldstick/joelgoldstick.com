@@ -29,10 +29,12 @@ TEMPLATE_DIRS = (
     os.path.join(BASE_DIR,  'templates'),
 )
 
+# Static files (CSS, JavaScript, Images)
+# https://docs.djangoproject.com/en/1.6/howto/static-files/
+STATIC_ROOT = os.path.join(BASE_DIR, "collect_static")
 STATIC_URL = '/static/'
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, "static"),
-    '/var/www/static/',
 )
 # for email from gmail
 EMAIL_HOST = 'smtp.gmail.com'
@@ -110,11 +112,3 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
-
-
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/1.6/howto/static-files/
-
-STATIC_URL = '/static/'
-STATIC_ROOT = ""
-# STATIC_FILE_DIRS = ('assets', os.path.join(BASE_DIR, 'static'))
