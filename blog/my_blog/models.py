@@ -1,9 +1,9 @@
 from django.db import models
 from django.contrib import admin
 from markdown import markdown
-from markdown.extensions import codehilite
 import datetime
 from django.contrib.auth.models import User
+#from tagging.fields import TagField
 
 # Create your models here.
 
@@ -12,8 +12,8 @@ class Category(models.Model):
     title = models.CharField(max_length=250, help_text="250 Characters Max")
     slug = models.SlugField(unique=True,
         help_text="Suggested value generated from title. Must be unique.")
-    description = models.CharField(max_length=100)
-    #description = models.TextField()
+    #description = models.CharField(max_length=100)
+    description = models.TextField()
 
     def __unicode__(self):
         return self.title
@@ -47,7 +47,7 @@ class Entry(models.Model):
     pub_date = models.DateTimeField(default=datetime.datetime.now)
     modified_date = models.DateTimeField(default=datetime.datetime.now)
     author = models.ForeignKey(User)
-    #enable_comments = models.BooleanField(default=True)
+    enable_comments = models.BooleanField(default=True)
     featured = models.BooleanField(default=False)
     status = models.IntegerField(choices=STATUS_CHOICES, default=LIVE_STATUS)
     categories = models.ManyToManyField(Category)
@@ -55,7 +55,6 @@ class Entry(models.Model):
 
     def save(self, force_insert=False, force_update=False):
         self.body_html = markdown(self.body, ['codehilite', 'headerid'])
-        self.body_html = markdown(self.body, output_format='html5', extensions=['codehilite',])
         if self.excerpt:
             self.excerpt_html = markdown(self.excerpt, ['codehilite'])
         super(Entry, self).save(force_insert, force_update)
@@ -82,11 +81,16 @@ admin.site.register(Entry, EntryAdmin)
 class Link(models.Model):
     title = models.CharField(max_length=250)
     description = models.TextField(blank=True)
-    description_html = models.TextField(blank=True)
     url = models.URLField(unique=True)
-    posted_by = models.ForeignKey(User)
     pub_date = models.DateTimeField(default=datetime.datetime.now)
-    slug = models.SlugField(unique_for_date='pub_date')
-    # tags = TagField()
-    enable_comments = models.BooleanField(default=False)
-    post_elsewhere = models.BooleanField(default=False)
+    categories = models.ManyToManyField(Category)
+
+    def __unicode__(self):
+        return self.title
+
+
+class LinkAdmin(admin.ModelAdmin):
+    list_display = ['title']
+    ordering = ['title']
+    
+admin.site.register(Link, LinkAdmin)

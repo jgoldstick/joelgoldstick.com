@@ -11,7 +11,8 @@ from forms import ContactForm
 
 # cbv
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
-from blog_app.models import Entry, Category
+#from blog_app.models import Entry, Category
+from my_blog.models import Entry, Category
 
 
 def entries_index(request):
@@ -61,6 +62,10 @@ def category_list(request):
 def entries_by_category(request, category):
     return render_to_response('blog_app/categories_list.html',
                               {'categories': Category.objects.all().filter(title=category)})
+
+def links_by_category(request, category):
+    return render_to_response('blog_app/categories_list.html',
+                              {'categories': Links.objects.all().filter(title=category)})
 
 
 class LatestEntriesFeed(Feed):
