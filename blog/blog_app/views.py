@@ -1,6 +1,6 @@
 # Create your views here.
 from django.http import HttpResponseRedirect
-from django.shortcuts import render_to_response
+from django.shortcuts import render_to_response, render
 # from django.core.context_processors import csrf
 # above depricated, and gone in 1.10
 from django.template.context_processors import csrf
@@ -15,8 +15,14 @@ from blog_app.models import Entry, Category
 
 
 def entries_index(request):
+    """
     return render_to_response('blog_app/entry_index.html',
-                              {'entry_list': Entry.objects.all().filter(status=1)})
+                              {'subtitle': subtitle,
+                               'entry_list': Entry.objects.all().filter(status=1)})
+    """
+    return render(request, 'blog_app/entry_index.html',
+                  {'entry_list': Entry.objects.all().filter(status=1),
+                   'subtitle': 'Latest Entries'})
 
 
 class EntryList(ListView):
@@ -50,12 +56,14 @@ def entry_detail(request, year, month, day, slug):
                                   pub_date__year=pub_date.year,
                                   pub_date__month=pub_date.month,
                                   pub_date__day=pub_date.day,
-                                  slug=slug)})
+                                  slug=slug),
+                                'subtitle': 'Entry Detail'
+                              })
 
 
 def category_list(request):
     return render_to_response('blog_app/categories_list.html',
-                              {'categories': Category.objects.all()})
+                              {'subtitle': 'Categories', 'categories': Category.objects.all()})
 
 
 def entries_by_category(request, category):
@@ -121,13 +129,12 @@ def contact(request):
                       recipients, fail_silently=False)
 
             # Process the data in form.cleaned_data
-            #request.session['answer'] = ""
             # Redirect after POST
             return HttpResponseRedirect(reverse('index'))
             # return HttpResponseRedirect('/thanks/') # Redirect after POST
     else:
         form = ContactForm()  # An unbound form
 
-    c = {'form': form, 'test': test_expression}
+    c = {'subtitle': 'Contact Us', 'form': form, 'test': test_expression}
     c.update(csrf(request))
     return render_to_response('blog_app/contact_form.html', c)
