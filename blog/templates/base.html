@@ -6,7 +6,7 @@
         <link rel="stylesheet" type="text/css" href="/static/base.css">
         <link rel="shortcut icon" href="/static/favicon.ico" type="image/x-icon" />
         {% block head %}
-        <title>JoelGoldstick.com</a></title>
+        <title>JoelGoldstick.com {{ subtitle }}</title>
         <a href="http://stackoverflow.com/users/469072/joel-goldstick">
 <img src="http://stackoverflow.com/users/flair/469072.png" width="208" height="58" alt="profile for joel goldstick at Stack Overflow, Q&amp;A for professional and enthusiast programmers" title="profile for joel goldstick at Stack Overflow, Q&amp;A for professional and enthusiast programmers"></a>
         {% endblock %}
@@ -20,13 +20,12 @@
         ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
         var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
       })();
-    </script>    
+    </script>
 
     </head>
     <body>
     <h1><a href="{% url 'index' %}">JoelGoldstick.com</a></h1>
     {% include 'top_menu.html' %}
-    
     {% block content %}
     {% endblock %}
     </body>

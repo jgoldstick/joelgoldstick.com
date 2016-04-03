@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib import admin
 from markdown import markdown
-from markdown.extensions import codehilite
+# from markdown.extensions import codehilite
 import datetime
 from django.contrib.auth.models import User
 
@@ -11,9 +11,8 @@ from django.contrib.auth.models import User
 class Category(models.Model):
     title = models.CharField(max_length=250, help_text="250 Characters Max")
     slug = models.SlugField(unique=True,
-        help_text="Suggested value generated from title. Must be unique.")
+            help_text="Suggested value generated from title. Must be unique.")
     description = models.CharField(max_length=100)
-    #description = models.TextField()
 
     def __unicode__(self):
         return self.title
@@ -47,7 +46,6 @@ class Entry(models.Model):
     pub_date = models.DateTimeField(default=datetime.datetime.now)
     modified_date = models.DateTimeField(default=datetime.datetime.now)
     author = models.ForeignKey(User)
-    #enable_comments = models.BooleanField(default=True)
     featured = models.BooleanField(default=False)
     status = models.IntegerField(choices=STATUS_CHOICES, default=LIVE_STATUS)
     categories = models.ManyToManyField(Category)
@@ -55,10 +53,12 @@ class Entry(models.Model):
 
     def save(self, force_insert=False, force_update=False):
         self.body_html = markdown(self.body, ['codehilite', 'headerid'])
-        self.body_html = markdown(self.body, output_format='html5', extensions=['codehilite',])
+        self.body_html = markdown(self.body, output_format='html5',
+                                  extensions=['codehilite', ])
         if self.excerpt:
             self.excerpt_html = markdown(self.excerpt, ['codehilite'])
         super(Entry, self).save(force_insert, force_update)
+        # super(Entry, self).save()
 
     class Meta:
         verbose_name_plural = "Entries"
@@ -68,8 +68,18 @@ class Entry(models.Model):
         return self.title
 
     def get_absolute_url(self):
+        print "/blog/%s/%s/" % (self.pub_date.strftime("%Y/%b/%d").lower(),
+                                 self.slug)
         return "/blog/%s/%s/" % (self.pub_date.strftime("%Y/%b/%d").lower(),
                                  self.slug)
+
+    """
+    def get_absolute_url(self):
+        from django.core.urlresolvers import reverse
+        return reverse('views.entry.detail',
+                       args=[str(self.pub_date.strftime("%Y/%b/%d").lower()),
+                             str(self.slug)])
+    """
 
 
 class EntryAdmin(admin.ModelAdmin):

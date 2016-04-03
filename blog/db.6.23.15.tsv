@@ -1,0 +1,931 @@
+2
+Making a weblog
+making-weblog
+I am making a weblog using the code in Practical Django Projects as a guide.
+
+Additional text to see if update works
+<p>I am making a weblog using the code in Practical Django Projects as a guide.</p>
+<p>Additional text to see if update works</p>
+How to make django work with mod_wsgi in python. The first time I tried to do this was at work using django 1.3 with code from a project that I was working on. I started getting server errors (500), and I went on to other work. 
+
+ So, in my home 'workshop' I'm using django 1.4. I created a very minimal project roughly using the example in Python Web Develoment with Django by Jeff Forcier, Paul Bissex and Wesley Chun. (Addison Wesley). The project has no dependencies. 
+
+ I read the django official documents at How to use Django with Apache and mod_wsg. From that article I modified my apache2.conf file. In the article they refer to httpd.conf, but on my Ubuntu system that file is empty and there is another called apache2.conf which seems to be used instead.
+How to make django work with mod_wsgi in python. The first time I tried to do this was at work using django 1.3 with code from a project that I was working on. I started getting server errors (500), and I went on to other work. 
+
+ So, in my home 'workshop' I'm using django 1.4. I created a very minimal project roughly using the example in Python Web Develoment with Django by Jeff Forcier, Paul Bissex and Wesley Chun. (Addison Wesley). The project has no dependencies. 
+
+ I read the django official documents at How to use Django with Apache and mod_wsg. From that article I modified my apache2.conf file. In the article they refer to httpd.conf, but on my Ubuntu system that file is empty and there is another called apache2.conf which seems to be used instead.
+<p>How to make django work with mod_wsgi in python. The first time I tried to do this was at work using django 1.3 with code from a project that I was working on. I started getting server errors (500), and I went on to other work. </p>
+<p>So, in my home 'workshop' I'm using django 1.4. I created a very minimal project roughly using the example in Python Web Develoment with Django by Jeff Forcier, Paul Bissex and Wesley Chun. (Addison Wesley). The project has no dependencies. </p>
+<p>I read the django official documents at How to use Django with Apache and mod_wsg. From that article I modified my apache2.conf file. In the article they refer to httpd.conf, but on my Ubuntu system that file is empty and there is another called apache2.conf which seems to be used instead.
+How to make django work with mod_wsgi in python. The first time I tried to do this was at work using django 1.3 with code from a project that I was working on. I started getting server errors (500), and I went on to other work. </p>
+<p>So, in my home 'workshop' I'm using django 1.4. I created a very minimal project roughly using the example in Python Web Develoment with Django by Jeff Forcier, Paul Bissex and Wesley Chun. (Addison Wesley). The project has no dependencies. </p>
+<p>I read the django official documents at How to use Django with Apache and mod_wsg. From that article I modified my apache2.conf file. In the article they refer to httpd.conf, but on my Ubuntu system that file is empty and there is another called apache2.conf which seems to be used instead.</p>
+2012-09-20 16:57:16
+1
+1
+0
+1
+Django
+2016-03-26 15:07:57
+3
+my apache2.conf file
+my-apache2conf-file
+This is to get mod_wsgi to run
+<p>This is to get mod_wsgi to run</p>
+<p>Here is my wsgi.py file.  It lives in <code>/home/jcg/code/learning/myapp/myapp/wsgi.py</code></p>
+    :::python
+    import os, sys
+
+    sys.path.append('/home/jcg/code/learn')
+    sys.path.append('/home/jcg/code/learn/myapp')
+
+
+    os.environ.setdefault("DJANGO_SETTINGS_MODULE", "myapp.settings")
+
+    # This application object is used by any WSGI server configured to use this
+    # file. This includes Django's development server, if the WSGI_APPLICATION
+    # setting points here.
+    from django.core.wsgi import get_wsgi_application
+    application = get_wsgi_application()
+</code>
+</pre>
+
+<p>
+Here is the code in <code>/etc/apache2/apache2.conf</code>
+</p>
+
+    :::apache
+    # https://docs.djangoproject.com/en/1.4/howto/deployment/wsgi/modwsgi/
+    # jcg 9/18/2012
+    Alias /media/ /home/jcg/code/learn/media/
+
+    <Directory /home/jcg/code/learn/media>
+    Order deny,allow
+    Allow from all
+    </Directory>
+
+    WSGIScriptAlias / /home/jcg/code/learn//myapp/myapp/wsgi.py
+    WSGIPythonPath /home/jcg/code/learn/lib/python2.7/site-packages
+
+    <Directory /home/jcg/code/learn/myapp>
+    Order deny,allow
+    Allow from all
+    </Directory>
+
+<p>Here is my wsgi.py file.  It lives in <code>/home/jcg/code/learning/myapp/myapp/wsgi.py</code></p>
+
+<div class="codehilite"><pre><span class="kn">import</span> <span class="nn">os</span><span class="o">,</span> <span class="nn">sys</span>
+
+<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s">&#39;/home/jcg/code/learn&#39;</span><span class="p">)</span>
+<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s">&#39;/home/jcg/code/learn/myapp&#39;</span><span class="p">)</span>
+
+<span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s">&quot;DJANGO_SETTINGS_MODULE&quot;</span><span class="p">,</span> <span class="s">&quot;myapp.settings&quot;</span><span class="p">)</span>
+
+<span class="c"># This application object is used by any WSGI server configured to use this</span>
+<span class="c"># file. This includes Django&#39;s development server, if the WSGI_APPLICATION</span>
+<span class="c"># setting points here.</span>
+<span class="kn">from</span> <span class="nn">django.core.wsgi</span> <span class="kn">import</span> <span class="n">get_wsgi_application</span>
+<span class="n">application</span> <span class="o">=</span> <span class="n">get_wsgi_application</span><span class="p">()</span>
+</pre></div>
+
+
+<p></code>
+</pre></p>
+<p>
+Here is the code in <code>/etc/apache2/apache2.conf</code>
+</p>
+
+<div class="codehilite"><pre><span class="c"># https://docs.djangoproject.com/en/1.4/howto/deployment/wsgi/modwsgi/</span>
+<span class="c"># jcg 9/18/2012</span>
+<span class="nb">Alias</span> <span class="sx">/media/</span> <span class="sx">/home/jcg/code/learn/media/</span>
+
+<span class="nt">&lt;Directory</span> <span class="s">/home/jcg/code/learn/media</span><span class="nt">&gt;</span>
+<span class="nb">Order</span> deny,allow
+<span class="nb">Allow</span> from <span class="k">all</span>
+<span class="nt">&lt;/Directory&gt;</span>
+
+<span class="nb">WSGIScriptAlias</span> / <span class="sx">/home/jcg/code/learn//myapp/myapp/wsgi.py</span>
+<span class="nb">WSGIPythonPath</span> <span class="sx">/home/jcg/code/learn/lib/python2.7/site-packages</span>
+
+<span class="nt">&lt;Directory</span> <span class="s">/home/jcg/code/learn/myapp</span><span class="nt">&gt;</span>
+<span class="nb">Order</span> deny,allow
+<span class="nb">Allow</span> from <span class="k">all</span>
+<span class="nt">&lt;/Directory&gt;</span>
+</pre></div>
+2012-09-20 17:07:03
+1
+1
+0
+1
+
+
+4
+Models for this blog
+models-blog
+
+
+Here is the code in models.py for the blog application
+
+    :::python
+    from django.db import models
+    from django.contrib import admin
+    from markdown import markdown
+    import datetime
+    from django.contrib.auth.models import User
+    from tagging.fields import TagField
+
+    # Create your models here.
+    class BlogPost(models.Model):
+        title = models.CharField(max_length=150)
+        body = models.TextField()
+        timestamp = models.DateTimeField(auto_now_add=True, blank=True)
+        
+        def __unicode__(self):
+            return self.title
+        
+    class BlogPostAdmin(admin.ModelAdmin):
+        list_display = ['title', 'timestamp', 'pk']
+    admin.site.register(BlogPost, BlogPostAdmin)
+
+    class Category(models.Model):
+        title = models.CharField(max_length=250, help_text="250 Characters Max")
+        slug = models.SlugField(unique=True, help_text="Suggested value generated from title. Must be unique.")
+        description = models.TextField()
+        
+        def __unicode__(self):
+            return self.title
+            
+        class Meta:
+            verbose_name_plural = "Categories"
+            
+    class CategoryAdmin(admin.ModelAdmin):
+        prepopulated_fields = {'slug': ['title']}
+        
+    admin.site.register(Category, CategoryAdmin)
+       
+
+    class Entry(models.Model):
+        LIVE_STATUS = 1
+        DRAFT_STATUS = 2
+        HIDDEN_STATUS = 3
+        STATUS_CHOICES = (
+            (LIVE_STATUS, 'Live'),
+            (DRAFT_STATUS,'Draft'),
+            (HIDDEN_STATUS, 'Hidden'),
+        )
+        title = models.CharField(max_length=250)
+        slug = models.SlugField(unique_for_date='pub_date', help_text="Suggested value generated from title. Must be unique.")
+        excerpt = models.TextField(blank=True)
+        excerpt_html = models.TextField(editable=False, blank=True)    
+        body = models.TextField()
+        body_html = models.TextField(editable=False, blank=True)    
+        pub_date = models.DateTimeField(default=datetime.datetime.now)
+        author = models.ForeignKey(User)
+        enable_comments = models.BooleanField(default=True)
+        featured = models.BooleanField(default=False)
+        status = models.IntegerField(choices=STATUS_CHOICES, default=LIVE_STATUS)
+        categories = models.ManyToManyField(Category)
+        tags = TagField()
+        
+        def save(self, force_insert=False, force_update=False):
+            self.body_html = markdown(self.body, ['codehilite'])
+            if self.excerpt:
+                self.excerpt_html = markdown(self.excerpt_html, ['codehilite'])
+            super(Entry, self).save(force_insert, force_update)
+            
+        class Meta:
+            verbose_name_plural = "Entries"
+            ordering = ['-pub_date']
+
+        def __unicode__(self):
+            return self.title
+            
+        def get_absolute_url(self):
+            return "/blog/%s/%s/" % (self.pub_date.strftime("%Y/%b/%d").lower(), self.slug)
+        
+    class EntryAdmin(admin.ModelAdmin):
+        prepopulated_fields = {'slug': ['title']}
+        
+    admin.site.register(Entry, EntryAdmin)
+        
+     
+
+<p>Here is the code in models.py for the blog application</p>
+<div class="codehilite"><pre><span class="kn">from</span> <span class="nn">django.db</span> <span class="kn">import</span> <span class="n">models</span>
+<span class="kn">from</span> <span class="nn">django.contrib</span> <span class="kn">import</span> <span class="n">admin</span>
+<span class="kn">from</span> <span class="nn">markdown</span> <span class="kn">import</span> <span class="n">markdown</span>
+<span class="kn">import</span> <span class="nn">datetime</span>
+<span class="kn">from</span> <span class="nn">django.contrib.auth.models</span> <span class="kn">import</span> <span class="n">User</span>
+<span class="kn">from</span> <span class="nn">tagging.fields</span> <span class="kn">import</span> <span class="n">TagField</span>
+
+<span class="c"># Create your models here.</span>
+<span class="k">class</span> <span class="nc">BlogPost</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">title</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">150</span><span class="p">)</span>
+    <span class="n">body</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">TextField</span><span class="p">()</span>
+    <span class="n">timestamp</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateTimeField</span><span class="p">(</span><span class="n">auto_now_add</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">blank</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__unicode__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">title</span>
+
+<span class="k">class</span> <span class="nc">BlogPostAdmin</span><span class="p">(</span><span class="n">admin</span><span class="o">.</span><span class="n">ModelAdmin</span><span class="p">):</span>
+    <span class="n">list_display</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;title&#39;</span><span class="p">,</span> <span class="s">&#39;timestamp&#39;</span><span class="p">,</span> <span class="s">&#39;pk&#39;</span><span class="p">]</span>
+<span class="n">admin</span><span class="o">.</span><span class="n">site</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">BlogPost</span><span class="p">,</span> <span class="n">BlogPostAdmin</span><span class="p">)</span>
+
+<span class="k">class</span> <span class="nc">Category</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">title</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">250</span><span class="p">,</span> <span class="n">help_text</span><span class="o">=</span><span class="s">&quot;250 Characters Max&quot;</span><span class="p">)</span>
+    <span class="n">slug</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">SlugField</span><span class="p">(</span><span class="n">unique</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">help_text</span><span class="o">=</span><span class="s">&quot;Suggested value generated from title. Must be unique.&quot;</span><span class="p">)</span>
+    <span class="n">description</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">TextField</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">__unicode__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">title</span>
+
+    <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
+        <span class="n">verbose_name_plural</span> <span class="o">=</span> <span class="s">&quot;Categories&quot;</span>
+
+<span class="k">class</span> <span class="nc">CategoryAdmin</span><span class="p">(</span><span class="n">admin</span><span class="o">.</span><span class="n">ModelAdmin</span><span class="p">):</span>
+    <span class="n">prepopulated_fields</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;slug&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s">&#39;title&#39;</span><span class="p">]}</span>
+
+<span class="n">admin</span><span class="o">.</span><span class="n">site</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">Category</span><span class="p">,</span> <span class="n">CategoryAdmin</span><span class="p">)</span>
+
+<span class="k">class</span> <span class="nc">Entry</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">LIVE_STATUS</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">DRAFT_STATUS</span> <span class="o">=</span> <span class="mi">2</span>
+    <span class="n">HIDDEN_STATUS</span> <span class="o">=</span> <span class="mi">3</span>
+    <span class="n">STATUS_CHOICES</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="p">(</span><span class="n">LIVE_STATUS</span><span class="p">,</span> <span class="s">&#39;Live&#39;</span><span class="p">),</span>
+        <span class="p">(</span><span class="n">DRAFT_STATUS</span><span class="p">,</span><span class="s">&#39;Draft&#39;</span><span class="p">),</span>
+        <span class="p">(</span><span class="n">HIDDEN_STATUS</span><span class="p">,</span> <span class="s">&#39;Hidden&#39;</span><span class="p">),</span>
+    <span class="p">)</span>
+    <span class="n">title</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">250</span><span class="p">)</span>
+    <span class="n">slug</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">SlugField</span><span class="p">(</span><span class="n">unique_for_date</span><span class="o">=</span><span class="s">&#39;pub_date&#39;</span><span class="p">,</span> <span class="n">help_text</span><span class="o">=</span><span class="s">&quot;Suggested value generated from title. Must be unique.&quot;</span><span class="p">)</span>
+    <span class="n">excerpt</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">TextField</span><span class="p">(</span><span class="n">blank</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">excerpt_html</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">TextField</span><span class="p">(</span><span class="n">editable</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">blank</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>    
+    <span class="n">body</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">TextField</span><span class="p">()</span>
+    <span class="n">body_html</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">TextField</span><span class="p">(</span><span class="n">editable</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">blank</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>    
+    <span class="n">pub_date</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateTimeField</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">)</span>
+    <span class="n">author</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">User</span><span class="p">)</span>
+    <span class="n">enable_comments</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">BooleanField</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">featured</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">BooleanField</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+    <span class="n">status</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">IntegerField</span><span class="p">(</span><span class="n">choices</span><span class="o">=</span><span class="n">STATUS_CHOICES</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="n">LIVE_STATUS</span><span class="p">)</span>
+    <span class="n">categories</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ManyToManyField</span><span class="p">(</span><span class="n">Category</span><span class="p">)</span>
+    <span class="n">tags</span> <span class="o">=</span> <span class="n">TagField</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">force_insert</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">force_update</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">body_html</span> <span class="o">=</span> <span class="n">markdown</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">body</span><span class="p">,</span> <span class="p">[</span><span class="s">&#39;codehilite&#39;</span><span class="p">])</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">excerpt</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">excerpt_html</span> <span class="o">=</span> <span class="n">markdown</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">excerpt_html</span><span class="p">,</span> <span class="p">[</span><span class="s">&#39;codehilite&#39;</span><span class="p">])</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">Entry</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">force_insert</span><span class="p">,</span> <span class="n">force_update</span><span class="p">)</span>
+
+    <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
+        <span class="n">verbose_name_plural</span> <span class="o">=</span> <span class="s">&quot;Entries&quot;</span>
+        <span class="n">ordering</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;-pub_date&#39;</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">__unicode__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">title</span>
+
+    <span class="k">def</span> <span class="nf">get_absolute_url</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s">&quot;/blog/</span><span class="si">%s</span><span class="s">/</span><span class="si">%s</span><span class="s">/&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pub_date</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s">&quot;%Y/%b/</span><span class="si">%d</span><span class="s">&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">slug</span><span class="p">)</span>
+
+<span class="k">class</span> <span class="nc">EntryAdmin</span><span class="p">(</span><span class="n">admin</span><span class="o">.</span><span class="n">ModelAdmin</span><span class="p">):</span>
+    <span class="n">prepopulated_fields</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;slug&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s">&#39;title&#39;</span><span class="p">]}</span>
+
+<span class="n">admin</span><span class="o">.</span><span class="n">site</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">Entry</span><span class="p">,</span> <span class="n">EntryAdmin</span><span class="p">)</span>
+</pre></div>
+2012-09-20 19:43:40
+1
+1
+0
+1
+
+
+5
+Creating obfuscated unicode from plaintext
+creating-obfuscated-unicode-plaintext
+There is a site [here](http://graphics.glig.com/generators/unicode_text) that lets you type in text to produce unicode text using substitute characters that look similar enough to ascii to be read.
+<p>There is a site <a href="http://graphics.glig.com/generators/unicode_text">here</a> that lets you type in text to produce unicode text using substitute characters that look similar enough to ascii to be read.</p>
+There is a site [here](http://graphics.glig.com/generators/unicode_text){: target="_blank"}
+
+Here is my email address: ʝσɛℓ.ɢσℓ∂ƨтιcκ@ɢмαιℓ.cσм
+
+There are two reasons i know of to use this service.  
+
+* First, using an obfuscated email address on the page lets people know your email address, but presumably makes it harder for bots to harvest it.
+* Second, its an easy way to check if your system handles unicode corectly
+<p>There is a site <a href="http://graphics.glig.com/generators/unicode_text">here</a>{: target="_blank"}</p>
+<p>Here is my email address: ʝσɛℓ.ɢσℓ∂ƨтιcκ@ɢмαιℓ.cσм</p>
+<p>There are two reasons i know of to use this service.  </p>
+<ul>
+<li>First, using an obfuscated email address on the page lets people know your email address, but presumably makes it harder for bots to harvest it.</li>
+<li>Second, its an easy way to check if your system handles unicode corectly</li>
+</ul>
+2012-09-21 14:00:47
+1
+1
+0
+1
+tools
+
+6
+Markdown
+markdown
+This is the [original documentation](http://daringfireball.net/projects/markdown/syntax)
+
+<p>This is the <a href="http://daringfireball.net/projects/markdown/syntax">original documentation</a></p>
+here is the [original documentation](http://daringfireball.net/projects/markdown/syntax#header)
+
+------------------------------------
+
+# Header 1 #
+## Header 2 ##
+### Header 3 ###
+#### Header 4 ####
+##### Header 5 #####
+
+This is a paragraph, which is text surrounded by whitespace. Paragraphs can be on one 
+line (or many), and can drone on for hours.  
+
+Here is a Markdown link to [Warped](http://warpedvisions.org), and a literal . 
+Now some SimpleLinks, like one to [google] (automagically links to are-you-
+feeling-lucky), a [wiki: test] link to a Wikipedia page, and a link to 
+[foldoc: CPU]s at foldoc.  
+
+Now some inline markup like _italics_,  **bold**, and `code()`. Note that underscores in 
+words are ignored in Markdown Extra.
+
+![picture alt](/static/favicon.ico "my favicon")     
+
+> Blockquotes are like quoted text in email replies
+>> And, they can be nested
+
+## Lists
+
+* Bullet lists are easy too
+- Another one
++ Another one
+
+This is a numbered list.  
+
+1. A numbered list
+2. Which is numbered
+3.    With periods and a space
+
+
+And now some code:
+
+    // Code is just text indented a bit (4 spaces)
+    which(is_easy) to_remember();
+
+[link to lists above if headerid is in options list](#lists)
+
+[link to Header 1 above if headerid is in options list](#header-1)
+
+
+-----------------------------
+
+is there an hr above and below? There should be
+
+********
+
+<p>here is the <a href="http://daringfireball.net/projects/markdown/syntax#header">original documentation</a></p>
+<hr />
+<h1 id="header-1">Header 1</h1>
+<h2 id="header-2">Header 2</h2>
+<h3 id="header-3">Header 3</h3>
+<h4 id="header-4">Header 4</h4>
+<h5 id="header-5">Header 5</h5>
+<p>This is a paragraph, which is text surrounded by whitespace. Paragraphs can be on one 
+line (or many), and can drone on for hours.<br />
+</p>
+<p>Here is a Markdown link to <a href="http://warpedvisions.org">Warped</a>, and a literal . 
+Now some SimpleLinks, like one to [google] (automagically links to are-you-
+feeling-lucky), a [wiki: test] link to a Wikipedia page, and a link to 
+[foldoc: CPU]s at foldoc.<br />
+</p>
+<p>Now some inline markup like <em>italics</em>,  <strong>bold</strong>, and <code>code()</code>. Note that underscores in 
+words are ignored in Markdown Extra.</p>
+<p><img alt="picture alt" src="/static/favicon.ico" title="my favicon" />   <br />
+</p>
+<blockquote>
+<p>Blockquotes are like quoted text in email replies</p>
+<blockquote>
+<p>And, they can be nested</p>
+</blockquote>
+</blockquote>
+<h2 id="lists">Lists</h2>
+<ul>
+<li>Bullet lists are easy too</li>
+<li>Another one</li>
+<li>Another one</li>
+</ul>
+<p>This is a numbered list.<br />
+</p>
+<ol>
+<li>A numbered list</li>
+<li>Which is numbered</li>
+<li>With periods and a space</li>
+</ol>
+<p>And now some code:</p>
+<div class="codehilite"><pre><span class="c1">// Code is just text indented a bit (4 spaces)</span>
+<span class="n">which</span><span class="p">(</span><span class="n">is_easy</span><span class="p">)</span> <span class="n">to_remember</span><span class="p">();</span>
+</pre></div>
+
+
+<p><a href="#lists">link to lists above if headerid is in options list</a></p>
+<p><a href="#header-1">link to Header 1 above if headerid is in options list</a></p>
+<hr />
+<p>is there an hr above and below? There should be</p>
+<hr />
+2012-09-21 17:27:35
+1
+1
+0
+1
+
+
+7
+Restart Apache, view logs
+restart-apache
+sudo /etc/init.d/apache2 restart
+
+tail /var/apache2/log/access.log
+<p>sudo /etc/init.d/apache2 restart</p>
+<p>tail /var/apache2/log/access.log</p>
+## Ubuntu
+
+sudo /etc/init.d/apache2 restart
+
+tail /var/apache2/log/access.log
+
+## Red Hat
+To run Apache type the following at the command prompt:
+/etc/init.d/httpd start
+
+To test it type:
+/etc/init.d/httpd status
+
+If apache is running you should see something like the following:
+httpd (pid 1844 1843 1842 1841 1840 1839 1838 1837 1828) is running...
+
+There are several ways to run Apache at bootup, and here is one of the simple ones.
+To run Apache at bootup type:
+vi /etc/rc.local
+
+This will open rc.local in the text editor "vi". Arrow down to the bottom of the text (there may not be any yet, in which case it will be the first line) and add:
+/etc/init.d/httpd start
+<h2 id="ubuntu">Ubuntu</h2>
+<p>sudo /etc/init.d/apache2 restart</p>
+<p>tail /var/apache2/log/access.log</p>
+<h2 id="red-hat">Red Hat</h2>
+<p>To run Apache type the following at the command prompt:
+/etc/init.d/httpd start</p>
+<p>To test it type:
+/etc/init.d/httpd status</p>
+<p>If apache is running you should see something like the following:
+httpd (pid 1844 1843 1842 1841 1840 1839 1838 1837 1828) is running...</p>
+<p>There are several ways to run Apache at bootup, and here is one of the simple ones.
+To run Apache at bootup type:
+vi /etc/rc.local</p>
+<p>This will open rc.local in the text editor "vi". Arrow down to the bottom of the text (there may not be any yet, in which case it will be the first line) and add:
+/etc/init.d/httpd start</p>
+2012-09-24 12:43:20
+1
+1
+0
+1
+
+
+8
+Moving to AWS -- EC2 and S3
+moving-aws-and-ecs
+I plan to deploy this site to Amazon Web Services (AWS) and serve static content with S3.  Here are my notes
+<p>I plan to deploy this site to Amazon Web Services (AWS) and serve static content with S3.  Here are my notes</p>
+The motivation behind this site is to develop a 'portfolio' where I can write articles about topics that interest me, and provide prospective clients or employers a living example of the results of the skills I possess, or are in the process of learning.
+
+I have some sites hosted on dreamhost, which is a low cost, reliable shared hosting company.  They provide a method for django site deployment.  For this project I am looking to get closer to the metal, and so I have decided to use Amazon services.
+
+Amazon Web Services (AWS) provides what I hope will be a low cost virtual machine with ssh access.  In the past I have worked with a system administrator to deploy django at work, but I wasn't directly involved in running the services, or in the deployment.  So here I go.
+
+Although I expect light traffic on the site, all advice points to using a separate server for static content.  That will be housed in an S3 bucket
+
+Setting up the static storage on S3 proved to be easy.  I have very few static files, so I copied them to S3 using the built in file copy facility at Amazon.  Buckets can't be accessed with ssh command line or something like Filezilla.  There is an application for django that will allow files to be copied from the manage.py interface.  I'll explore that later.
+
+The AMI image I chose was and Ubuntu system, because I am familiar with Ubuntu on the desktop.  This didn't work out well because I couldn't get ssh access.  Ubuntu images use username ubuntu apparently.  Other images use ec2-user or root.  Failing to get Ubuntu running, I switched to the first Amazon image.  It turns out to be a Red Hat Server.  This works fine with ec2-user.  
+<p>The motivation behind this site is to develop a 'portfolio' where I can write articles about topics that interest me, and provide prospective clients or employers a living example of the results of the skills I possess, or are in the process of learning.</p>
+<p>I have some sites hosted on dreamhost, which is a low cost, reliable shared hosting company.  They provide a method for django site deployment.  For this project I am looking to get closer to the metal, and so I have decided to use Amazon services.</p>
+<p>Amazon Web Services (AWS) provides what I hope will be a low cost virtual machine with ssh access.  In the past I have worked with a system administrator to deploy django at work, but I wasn't directly involved in running the services, or in the deployment.  So here I go.</p>
+<p>Although I expect light traffic on the site, all advice points to using a separate server for static content.  That will be housed in an S3 bucket</p>
+<p>Setting up the static storage on S3 proved to be easy.  I have very few static files, so I copied them to S3 using the built in file copy facility at Amazon.  Buckets can't be accessed with ssh command line or something like Filezilla.  There is an application for django that will allow files to be copied from the manage.py interface.  I'll explore that later.</p>
+<p>The AMI image I chose was and Ubuntu system, because I am familiar with Ubuntu on the desktop.  This didn't work out well because I couldn't get ssh access.  Ubuntu images use username ubuntu apparently.  Other images use ec2-user or root.  Failing to get Ubuntu running, I switched to the first Amazon image.  It turns out to be a Red Hat Server.  This works fine with ec2-user.<br />
+</p>
+2012-09-25 12:50:55
+1
+1
+0
+1
+
+
+9
+My ESPN Developer Account into
+my-espn-developer-account
+
+
+Key: h9ckawgep8u88rxxpjpjnvpz
+
+Application:
+    jcg espn api fun
+ 
+Key:
+    h9ckawgep8u88rxxpjpjnvpz 
+
+Shared Secret:
+    mYz6Jpzmx3G4qJEFe3dbvH7n 
+
+Status:
+    active 
+
+Registered:
+    4 months ago 
+
+Key Rate Limits
+3	Calls per second
+7,500	Calls per day
+
+jgoldstick
+p4s
+<p>Key: h9ckawgep8u88rxxpjpjnvpz</p>
+<p>Application:
+    jcg espn api fun</p>
+<p>Key:
+    h9ckawgep8u88rxxpjpjnvpz </p>
+<p>Shared Secret:
+    mYz6Jpzmx3G4qJEFe3dbvH7n </p>
+<p>Status:
+    active </p>
+<p>Registered:
+    4 months ago </p>
+<p>Key Rate Limits
+3   Calls per second
+7,500   Calls per day</p>
+<p>jgoldstick
+p4s</p>
+2012-09-27 12:28:41
+1
+1
+0
+2
+
+
+11
+Django Forms
+django-forms
+Some notes on using Django Forms, ModelForms and BetterForms
+<p>Some notes on using Django Forms, ModelForms and BetterForms</p>
+Forms give websites the ability for the reader to participate.  Every website I've ever written has used forms.  Creating a basic form in html, and writing the backend code to process the input in the most bare bones way isn't too much work, but that's not enough.  A form should look good, give hints to the user about how to properly fill it out, and rigorously check the data provided.  If there is a problem in the form data, the user should be gently coaxed to correct the problems.  In this regard, django Forms facility helps a lot.
+
+## Basic Form
+
+bla blah
+
+## Some Simple Validation
+
+comes out of the box
+
+## Fields that depend on other fields
+
+## Adding Bot Deterent Capability
+
+Many sites use Captcha to deter automatic form submission by Bots.  The idea is that a human can read some poorly displayed characters correctly and repeat them back to a form in a field.  A Bot program will have a much harder time doing this, and so the Bot submissions will fail.  Like many people, I find Captcha to be annoying.  The letters are often too poorly displayed to figure out correctly.
+
+As an alternative, I prefer the form ask the user a question that is easy for a human being to answer correctly, but not a Bot.  In this example, I am using a randomly generated arithmetic equation -- the sum of 2 or 3 randomly generated integers.  To keep it easy, I limit the integers to numbers from 1 to 20.  This is probably not a very good test, since the answer will be from 3 to 60, and I can imagine a bot could work that out by brute force.  Perhaps a better test would be to display some text and ask for the second word that starts with 'C', or something.
+
+Whatever the test, the form can generate the question and the answer when entered.   When the form is submitted, the answer is checked.  The problem is that HTTP is stateless, and so we need a way to save the answer when it is generated, so that the submit request can use it to test it.
+
+Here is my code for the test:
+
+    :::python
+    import random                                
+    def produce_expression():
+        """
+        return a tuple: expression (str), answer (int)
+        """
+        num_terms = random.randint(2,3)
+        operands = []
+        while num_terms:
+            n = random.randint(1,21)
+            operands.append(n)
+            num_terms -= 1
+            
+        result = sum(operands)
+        string_operands = map(str, operands)
+        expression = " + ".join(string_operands)
+        return expression, result
+
+The view.py code looks like this:
+
+    :::python
+    def contact(request):
+
+    test_expression, answer = produce_expression()
+    request.session['last_answer'] = request.session.get('answer', None)
+    request.session['answer'] = answer
+
+    answer = request.session['answer']
+    if request.method == 'POST': # If the form has been submitted...
+        #form = ContactForm(request.POST) # A form bound to the POST data
+        form = ContactForm(request.POST, request=request) # A form bound to the POST data
+        if form.is_valid(): # All validation rules pass
+            # Process the data in form.cleaned_data
+            request.session['answer'] = ""
+            return HttpResponseRedirect('/thanks/') # Redirect after POST
+    else:
+        form = ContactForm() # An unbound form 
+
+    c = {'form': form, 'test': test_expression, 'answer': answer}
+    c.update(csrf(request))
+    return render_to_response('blog/contact_form.html', c)
+   
+Every time the contact page is created we get a new question and answer:
+
+    :::python
+    test_expression, answer = produce_expression()
+    request.session['last_answer'] = request.session.get('answer', None)
+    request.session['answer'] = answer
+
+When the user enters his answer in the form, the form is once again created, so we need to keep the answer that was correct when the user entered his choice.  The session object which is included in the request object will maintain state for us
+
+When we instantiate the form with the POST data, we also pass the request object which contains the session where we have stored the answer.  In the form itself, we use the clean method to compare results.
+
+    :::python
+    class ContactForm(forms.Form):
+        subject = forms.CharField(max_length=100, required=True)
+        message = forms.CharField(required=True)
+        sender = forms.EmailField(required=True)
+        test_result = forms.IntegerField(label="Test Result", required=True)
+        cc_myself = forms.BooleanField(required=False)
+
+        def __init__(self, *args,**kwargs):
+            # overide __init__ to grab the request object, and then initialize the parent class
+            self.request = kwargs.pop('request', None)
+            super (ContactForm,self).__init__(*args,**kwargs)
+
+        # django runs clean_<field name> for each field in your form
+        def clean_test_result(self):
+            data = self.cleaned_data['test_result']
+            if self.request.session['last_answer'] <> data:
+                raise forms.ValidationError("You didn't get the math right!")
+
+And here is the template:
+
+    :::html
+    {% extends 'base.html' %}
+            {% block head %}
+            <title>joelgoldstick.com - Contact Us</title>
+            {% endblock %}
+            {% block content %}
+            <h1>Contact Us</h1>
+            <p>Let us know what you think!</p>
+            <p>To be sure you are not a bot, answer this below:</p>
+            <p>{{ test }} = ??</p>
+            <form id="contact_form" action="" method="post">{% csrf_token %}
+            {{ form.as_p }}
+            <input type="submit" value="Submit">
+            </form>
+            {% endblock %}
+
+    
+<p>Forms give websites the ability for the reader to participate.  Every website I've ever written has used forms.  Creating a basic form in html, and writing the backend code to process the input in the most bare bones way isn't too much work, but that's not enough.  A form should look good, give hints to the user about how to properly fill it out, and rigorously check the data provided.  If there is a problem in the form data, the user should be gently coaxed to correct the problems.  In this regard, django Forms facility helps a lot.</p>
+<h2 id="basic-form">Basic Form</h2>
+<p>bla blah</p>
+<h2 id="some-simple-validation">Some Simple Validation</h2>
+<p>comes out of the box</p>
+<h2 id="fields-that-depend-on-other-fields">Fields that depend on other fields</h2>
+<h2 id="adding-bot-deterent-capability">Adding Bot Deterent Capability</h2>
+<p>Many sites use Captcha to deter automatic form submission by Bots.  The idea is that a human can read some poorly displayed characters correctly and repeat them back to a form in a field.  A Bot program will have a much harder time doing this, and so the Bot submissions will fail.  Like many people, I find Captcha to be annoying.  The letters are often too poorly displayed to figure out correctly.</p>
+<p>As an alternative, I prefer the form ask the user a question that is easy for a human being to answer correctly, but not a Bot.  In this example, I am using a randomly generated arithmetic equation -- the sum of 2 or 3 randomly generated integers.  To keep it easy, I limit the integers to numbers from 1 to 20.  This is probably not a very good test, since the answer will be from 3 to 60, and I can imagine a bot could work that out by brute force.  Perhaps a better test would be to display some text and ask for the second word that starts with 'C', or something.</p>
+<p>Whatever the test, the form can generate the question and the answer when entered.   When the form is submitted, the answer is checked.  The problem is that HTTP is stateless, and so we need a way to save the answer when it is generated, so that the submit request can use it to test it.</p>
+<p>Here is my code for the test:</p>
+<div class="codehilite"><pre><span class="kn">import</span> <span class="nn">random</span>                                
+<span class="k">def</span> <span class="nf">produce_expression</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    return a tuple: expression (str), answer (int)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">num_terms</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span>
+    <span class="n">operands</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">while</span> <span class="n">num_terms</span><span class="p">:</span>
+        <span class="n">n</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">21</span><span class="p">)</span>
+        <span class="n">operands</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+        <span class="n">num_terms</span> <span class="o">-=</span> <span class="mi">1</span>
+
+    <span class="n">result</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">operands</span><span class="p">)</span>
+    <span class="n">string_operands</span> <span class="o">=</span> <span class="nb">map</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">operands</span><span class="p">)</span>
+    <span class="n">expression</span> <span class="o">=</span> <span class="s">&quot; + &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">string_operands</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">expression</span><span class="p">,</span> <span class="n">result</span>
+</pre></div>
+
+
+<p>The view.py code looks like this:</p>
+<div class="codehilite"><pre><span class="k">def</span> <span class="nf">contact</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+
+<span class="n">test_expression</span><span class="p">,</span> <span class="n">answer</span> <span class="o">=</span> <span class="n">produce_expression</span><span class="p">()</span>
+<span class="n">request</span><span class="o">.</span><span class="n">session</span><span class="p">[</span><span class="s">&#39;last_answer&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;answer&#39;</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
+<span class="n">request</span><span class="o">.</span><span class="n">session</span><span class="p">[</span><span class="s">&#39;answer&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">answer</span>
+
+<span class="n">answer</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">session</span><span class="p">[</span><span class="s">&#39;answer&#39;</span><span class="p">]</span>
+<span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">method</span> <span class="o">==</span> <span class="s">&#39;POST&#39;</span><span class="p">:</span> <span class="c"># If the form has been submitted...</span>
+    <span class="c">#form = ContactForm(request.POST) # A form bound to the POST data</span>
+    <span class="n">form</span> <span class="o">=</span> <span class="n">ContactForm</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="p">,</span> <span class="n">request</span><span class="o">=</span><span class="n">request</span><span class="p">)</span> <span class="c"># A form bound to the POST data</span>
+    <span class="k">if</span> <span class="n">form</span><span class="o">.</span><span class="n">is_valid</span><span class="p">():</span> <span class="c"># All validation rules pass</span>
+        <span class="c"># Process the data in form.cleaned_data</span>
+        <span class="n">request</span><span class="o">.</span><span class="n">session</span><span class="p">[</span><span class="s">&#39;answer&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">HttpResponseRedirect</span><span class="p">(</span><span class="s">&#39;/thanks/&#39;</span><span class="p">)</span> <span class="c"># Redirect after POST</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="n">form</span> <span class="o">=</span> <span class="n">ContactForm</span><span class="p">()</span> <span class="c"># An unbound form</span>
+
+<span class="n">c</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;form&#39;</span><span class="p">:</span> <span class="n">form</span><span class="p">,</span> <span class="s">&#39;test&#39;</span><span class="p">:</span> <span class="n">test_expression</span><span class="p">,</span> <span class="s">&#39;answer&#39;</span><span class="p">:</span> <span class="n">answer</span><span class="p">}</span>
+<span class="n">c</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">csrf</span><span class="p">(</span><span class="n">request</span><span class="p">))</span>
+<span class="k">return</span> <span class="n">render_to_response</span><span class="p">(</span><span class="s">&#39;blog/contact_form.html&#39;</span><span class="p">,</span> <span class="n">c</span><span class="p">)</span>
+</pre></div>
+
+
+<p>Every time the contact page is created we get a new question and answer:</p>
+<div class="codehilite"><pre><span class="n">test_expression</span><span class="p">,</span> <span class="n">answer</span> <span class="o">=</span> <span class="n">produce_expression</span><span class="p">()</span>
+<span class="n">request</span><span class="o">.</span><span class="n">session</span><span class="p">[</span><span class="s">&#39;last_answer&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;answer&#39;</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
+<span class="n">request</span><span class="o">.</span><span class="n">session</span><span class="p">[</span><span class="s">&#39;answer&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">answer</span>
+</pre></div>
+
+
+<p>When the user enters his answer in the form, the form is once again created, so we need to keep the answer that was correct when the user entered his choice.  The session object which is included in the request object will maintain state for us</p>
+<p>When we instantiate the form with the POST data, we also pass the request object which contains the session where we have stored the answer.  In the form itself, we use the clean method to compare results.</p>
+<div class="codehilite"><pre><span class="k">class</span> <span class="nc">ContactForm</span><span class="p">(</span><span class="n">forms</span><span class="o">.</span><span class="n">Form</span><span class="p">):</span>
+    <span class="n">subject</span> <span class="o">=</span> <span class="n">forms</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">message</span> <span class="o">=</span> <span class="n">forms</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">required</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">sender</span> <span class="o">=</span> <span class="n">forms</span><span class="o">.</span><span class="n">EmailField</span><span class="p">(</span><span class="n">required</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">test_result</span> <span class="o">=</span> <span class="n">forms</span><span class="o">.</span><span class="n">IntegerField</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="s">&quot;Test Result&quot;</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">cc_myself</span> <span class="o">=</span> <span class="n">forms</span><span class="o">.</span><span class="n">BooleanField</span><span class="p">(</span><span class="n">required</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="c"># overide __init__ to grab the request object, and then initialize the parent class</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">request</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s">&#39;request&#39;</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
+        <span class="nb">super</span> <span class="p">(</span><span class="n">ContactForm</span><span class="p">,</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+    <span class="c"># django runs clean_&lt;field name&gt; for each field in your form</span>
+    <span class="k">def</span> <span class="nf">clean_test_result</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cleaned_data</span><span class="p">[</span><span class="s">&#39;test_result&#39;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">session</span><span class="p">[</span><span class="s">&#39;last_answer&#39;</span><span class="p">]</span> <span class="o">&lt;&gt;</span> <span class="n">data</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">forms</span><span class="o">.</span><span class="n">ValidationError</span><span class="p">(</span><span class="s">&quot;You didn&#39;t get the math right!&quot;</span><span class="p">)</span>
+</pre></div>
+
+
+<p>And here is the template:</p>
+<div class="codehilite"><pre>{% extends &#39;base.html&#39; %}
+        {% block head %}
+        <span class="nt">&lt;title&gt;</span>joelgoldstick.com - Contact Us<span class="nt">&lt;/title&gt;</span>
+        {% endblock %}
+        {% block content %}
+        <span class="nt">&lt;h1&gt;</span>Contact Us<span class="nt">&lt;/h1&gt;</span>
+        <span class="nt">&lt;p&gt;</span>Let us know what you think!<span class="nt">&lt;/p&gt;</span>
+        <span class="nt">&lt;p&gt;</span>To be sure you are not a bot, answer this below:<span class="nt">&lt;/p&gt;</span>
+        <span class="nt">&lt;p&gt;</span>{{ test }} = ??<span class="nt">&lt;/p&gt;</span>
+        <span class="nt">&lt;form</span> <span class="na">id=</span><span class="s">&quot;contact_form&quot;</span> <span class="na">action=</span><span class="s">&quot;&quot;</span> <span class="na">method=</span><span class="s">&quot;post&quot;</span><span class="nt">&gt;</span>{% csrf_token %}
+        {{ form.as_p }}
+        <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">&quot;submit&quot;</span> <span class="na">value=</span><span class="s">&quot;Submit&quot;</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;/form&gt;</span>
+        {% endblock %}
+</pre></div>
+2012-09-30 13:05:14
+1
+1
+0
+1
+
+
+12
+How I Got here
+how-i-got-here
+Notes on how I came to where I am as a software developer
+<p>Notes on how I came to where I am as a software developer</p>
+## Early Seeds
+
+Somewhere around when I was in 4th grade, my class had a field trip to the Ford River Rouge Assembly plant.  It was fascinating.  The [Rouge Plant](http://en.wikipedia.org/wiki/Rouge_plant) was a full service affair.  They made their own steel, their own glass, and ultimately assemble various Fords out of these materials.  This was a giant systems engineering project.  I got to see how it worked!
+
+I grew up in the late 60s when the NASA space program to reach the moon was a very big thing.  This got me curious about astronomy and I soon found that there was a local astronomy club ([The Detroit Astronomical Society](http://ephemeraldetroit.blogspot.com/2011/10/from-what-i-can-ascertain-detroit.html) where more experienced members would help new members built their own telescope.  I built a 6 inch Newtonian telescope, grinding the mirror to a concave spherical shape, and then polished it to a very accurate parabola.  The equatorial mounting was made with a variety of pipe fittings.  So, this was my first engineering project.
+
+## College
+
+I began college expecting to study electrical engineering, especial analog circuit design.  But those were the years of the beginnings of microprocessors.  Digital was taking off in a big way, and it was possible to build your own computer.  I did.  It was an S-100 Z80 system with a North Star floppy disk drive.  To get it to work needed code written in assembly language that interfaced to the keyboard, disk drive and video output cards.  My second engineering project!
+
+By the time I graduated, I was hooked on software development, having learned how to write assembler code, Pascal, and a little PL/M
+
+## Professional Path
+
+[My first appearance on the internet](http://groups.google.com/group/alt.psychology.personality/tree/browse_frm/month/1995-03/7126ba5c1e1b0d8f?rnum=21&_done=%2Fgroup%2Falt.psychology.personality%2Fbrowse_frm%2Fmonth%2F1995-03%3F#doc_fb6b7e6b31190bb6) was a post to the alt.psychology.personality use-net group on March 1, 1995.  I haven't really been interested in the enneagram in some time, but I read a lot about it in the early 90s
+
+I actually appear as a co author to a [paper describing the first project I worked on out of College](http://accelconf.web.cern.ch/AccelConf/p79/PDF/PAC1979_3387.PDF) at Brookhaven National Laboratory, on Long Island.  Looking at the specification for the microcomputers will seem quaint today, but this was cutting edge technology then.  This was the first time microprocessors were used to control instrumentation at Brookhaven.  I wrote a program in 8080 assembly language that control three motors to control the movement of a lathe bed.  A magnetic field sensor was placed on the bed, and the application provided a detailed mapping of the magnetic properties of some very large magnet cores that would be used in the National Synchrotron Light Source particle accelerator.
+
+A few years later I landed at a start up near Boston called Microcom whose flagship product was an early electronic mail program that let Apple ][ users and IBM PC users send emails to each other's computers using direct modem connections.  This was written in Basic
+
+When [Microcom](http://en.wikipedia.org/wiki/Microcom) decided they could make more money making hardware (modems) than selling software I left to do contracting for various companies around Boston.  Most of this work was written in C for MS DOS machines.  dBASE was the data base component of choice in those days.
+
+In the very early days of Windows, it was difficult to write Windows applications in C.  Visual Basic was the quick route to doing that, so I switched over to that.  I did a fair amount of Access development for desktop applications.  Although Access lets the developer create tables and relationships with drag and drop forms, it also would translate the queries to SQL if you asked it.  So, I began to learn SQL. Eventually, when the web arrived, Microsoft created VB Script and ASP for building interactive web sites.  I was a Microsoft developer completely until I came across PHP which was quickly surpassing Perl as the 'cool' language for website development.  My earlier interest in SQL was useful in making PHP/mySQL websites 
+
+PHP introduced me to the open source world.  This was great because I was doing a lot of small contract website development jobs, and open source development environment was free, while Microsoft went more 'Enterprise' with the related costs for developers.  I was still using Windows XP at the time, but curious about the emergence of several Linux Distributions.  I tried Knoppix, which you could run directly from a CD in a Windows machine.  Eventually I settled on Ubuntu and left Windows behind for good.
+
+Since 2008, when I moved to New York City, I have been maintaining a lot of legacy code written in PHP.   A big problem with PHP is that the barrier to entry is so low that lots of unqualified people can 'make things work' -- sort of!   This gets old quickly.  So for all of my new development I began using Python, and Django.
+
+What's next?
+
+
+<h2>Early Seeds</h2>
+<p>Somewhere around when I was in 4th grade, my class had a field trip to the Ford River Rouge Assembly plant.  It was fascinating.  The <a href="http://en.wikipedia.org/wiki/Rouge_plant">Rouge Plant</a> was a full service affair.  They made their own steel, their own glass, and ultimately assemble various Fords out of these materials.  This was a giant systems engineering project.  I got to see how it worked!</p>
+<p>I grew up in the late 60s when the NASA space program to reach the moon was a very big thing.  This got me curious about astronomy and I soon found that there was a local astronomy club (<a href="http://ephemeraldetroit.blogspot.com/2011/10/from-what-i-can-ascertain-detroit.html">The Detroit Astronomical Society</a> where more experienced members would help new members built their own telescope.  I built a 6 inch Newtonian telescope, grinding the mirror to a concave spherical shape, and then polished it to a very accurate parabola.  The equatorial mounting was made with a variety of pipe fittings.  So, this was my first engineering project.</p>
+<h2>College</h2>
+<p>I began college expecting to study electrical engineering, especial analog circuit design.  But those were the years of the beginnings of microprocessors.  Digital was taking off in a big way, and it was possible to build your own computer.  I did.  It was an S-100 Z80 system with a North Star floppy disk drive.  To get it to work needed code written in assembly language that interfaced to the keyboard, disk drive and video output cards.  My second engineering project!</p>
+<p>By the time I graduated, I was hooked on software development, having learned how to write assembler code, Pascal, and a little PL/M</p>
+<h2>Professional Path</h2>
+<p><a href="http://groups.google.com/group/alt.psychology.personality/tree/browse_frm/month/1995-03/7126ba5c1e1b0d8f?rnum=21&amp;_done=%2Fgroup%2Falt.psychology.personality%2Fbrowse_frm%2Fmonth%2F1995-03%3F#doc_fb6b7e6b31190bb6">My first appearance on the internet</a> was a post to the alt.psychology.personality use-net group on March 1, 1995.  I haven't really been interested in the enneagram in some time, but I read a lot about it in the early 90s</p>
+<p>I actually appear as a co author to a <a href="http://accelconf.web.cern.ch/AccelConf/p79/PDF/PAC1979_3387.PDF">paper describing the first project I worked on out of College</a> at Brookhaven National Laboratory, on Long Island.  Looking at the specification for the microcomputers will seem quaint today, but this was cutting edge technology then.  This was the first time microprocessors were used to control instrumentation at Brookhaven.  I wrote a program in 8080 assembly language that control three motors to control the movement of a lathe bed.  A magnetic field sensor was placed on the bed, and the application provided a detailed mapping of the magnetic properties of some very large magnet cores that would be used in the National Synchrotron Light Source particle accelerator.</p>
+<p>A few years later I landed at a start up near Boston called Microcom whose flagship product was an early electronic mail program that let Apple ][ users and IBM PC users send emails to each other's computers using direct modem connections.  This was written in Basic</p>
+<p>When <a href="http://en.wikipedia.org/wiki/Microcom">Microcom</a> decided they could make more money making hardware (modems) than selling software I left to do contracting for various companies around Boston.  Most of this work was written in C for MS DOS machines.  dBASE was the data base component of choice in those days.</p>
+<p>In the very early days of Windows, it was difficult to write Windows applications in C.  Visual Basic was the quick route to doing that, so I switched over to that.  I did a fair amount of Access development for desktop applications.  Although Access lets the developer create tables and relationships with drag and drop forms, it also would translate the queries to SQL if you asked it.  So, I began to learn SQL. Eventually, when the web arrived, Microsoft created VB Script and ASP for building interactive web sites.  I was a Microsoft developer completely until I came across PHP which was quickly surpassing Perl as the 'cool' language for website development.  My earlier interest in SQL was useful in making PHP/mySQL websites </p>
+<p>PHP introduced me to the open source world.  This was great because I was doing a lot of small contract website development jobs, and open source development environment was free, while Microsoft went more 'Enterprise' with the related costs for developers.  I was still using Windows XP at the time, but curious about the emergence of several Linux Distributions.  I tried Knoppix, which you could run directly from a CD in a Windows machine.  Eventually I settled on Ubuntu and left Windows behind for good.</p>
+<p>Since 2008, when I moved to New York City, I have been maintaining a lot of legacy code written in PHP.   A big problem with PHP is that the barrier to entry is so low that lots of unqualified people can 'make things work' -- sort of!   This gets old quickly.  So for all of my new development I began using Python, and Django.</p>
+<p>What's next?</p>
+2012-10-10 15:31:23
+1
+1
+0
+1
+
+2016-03-29 17:18:19
+14
+Migrating from Django 1.3 to 1.6
+migrating-django-13-16
+I haven't look at this blog in a couple of years.  It was written with Django 1.3.
+
+So, yesterday and today I upgraded to 1.6 using virtualenvwrapper to segregate my packages.  
+<p>I haven't look at this blog in a couple of years.  It was written with Django 1.3.</p>
+<p>So, yesterday and today I upgraded to 1.6 using virtualenvwrapper to segregate my packages.  </p>
+I haven't look at this blog in a couple of years.  It was written with Django 1.3.
+
+So, yesterday and today I upgraded to 1.6 using virtualenvwrapper to segregate my packages.  
+<p>I haven't look at this blog in a couple of years.  It was written with Django 1.3.</p>
+<p>So, yesterday and today I upgraded to 1.6 using virtualenvwrapper to segregate my packages.  </p>
+2014-08-06 15:59:38
+1
+1
+0
+1
+
+
+15
+crud test
+crud-test
+This is an entry using cbv
+<p>This is an entry using cbv</p>
+  You might have noticed that our sample publisher list template stores all the publishers in a variable named object_list. While this works just fine, it isn’t all that “friendly” to template authors: they have to “just know” that they’re dealing with publishers here.
+
+Well, if you’re dealing with a model object, this is already done for you. When you are dealing with an object or queryset, Django is able to populate the context using the lower cased version of the model class’ name. This is provided in addition to the default object_list entry, but contains exactly the same data, i.e. publisher_list.
+
+If this still isn’t a good match, you can manually set the name of the context variable. The context_object_name attribute on a generic view specifies the context variable to use:
+<p>You might have noticed that our sample publisher list template stores all the publishers in a variable named object_list. While this works just fine, it isn’t all that “friendly” to template authors: they have to “just know” that they’re dealing with publishers here.</p>
+<p>Well, if you’re dealing with a model object, this is already done for you. When you are dealing with an object or queryset, Django is able to populate the context using the lower cased version of the model class’ name. This is provided in addition to the default object_list entry, but contains exactly the same data, i.e. publisher_list.</p>
+<p>If this still isn’t a good match, you can manually set the name of the context variable. The context_object_name attribute on a generic view specifies the context variable to use:</p>
+2014-08-07 13:53:53
+1
+1
+0
+1
+
+
+16
+testing cvb
+testing-cvb
+this is the excerpt
+<p>this is the excerpt</p>
+
+up vote 60 down vote favorite
+28
+	
+
+I'm having a bit of trouble understanding how the new CBVs work. My question is this, I need to require login in all the views, and in some of them, specific permissions. In function-based views I do that with @permission_required() and the login_required attribute in the view, but I don't know how to do this on the new views. Is there some section in the django docs explaining this? I didn't found anything. What is wrong in my code?
+<p>up vote 60 down vote favorite
+28</p>
+<p>I'm having a bit of trouble understanding how the new CBVs work. My question is this, I need to require login in all the views, and in some of them, specific permissions. In function-based views I do that with @permission_required() and the login_required attribute in the view, but I don't know how to do this on the new views. Is there some section in the django docs explaining this? I didn't found anything. What is wrong in my code?</p>
+2014-08-12 19:09:00
+1
+1
+1
+1
+
+2016-03-30 17:20:19
+auth_group                  blog_app_entry_categories 
+auth_group_permissions      blog_app_link             
+auth_permission             django_admin_log          
+auth_user                   django_content_type       
+auth_user_groups            django_migrations         
+auth_user_user_permissions  django_session            
+blog_app_blogpost           django_site               
+blog_app_category           tagging_tag               
+blog_app_entry              tagging_taggeditem        

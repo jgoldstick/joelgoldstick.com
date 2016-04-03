@@ -15,11 +15,8 @@ from blog_app.models import Entry, Category
 
 
 def entries_index(request):
-    """
-    return render_to_response('blog_app/entry_index.html',
-                              {'subtitle': subtitle,
-                               'entry_list': Entry.objects.all().filter(status=1)})
-    """
+    entries = Entry.objects.all().filter(status=1),
+    print entries[0]
     return render(request, 'blog_app/entry_index.html',
                   {'entry_list': Entry.objects.all().filter(status=1),
                    'subtitle': 'Latest Entries'})
@@ -57,7 +54,7 @@ def entry_detail(request, year, month, day, slug):
                                   pub_date__month=pub_date.month,
                                   pub_date__day=pub_date.day,
                                   slug=slug),
-                                'subtitle': 'Entry Detail'
+                                # 'subtitle': 'Entry Detail'
                               })
 
 
