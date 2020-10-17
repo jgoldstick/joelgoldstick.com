@@ -7,7 +7,7 @@ from django.template.context_processors import csrf
 from django.core.urlresolvers import reverse
 from django.contrib.syndication.views import Feed
 # from django.contrib.auth.decorators import login_required
-from forms import ContactForm
+from .forms import ContactForm
 
 # cbv
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
@@ -98,7 +98,7 @@ def produce_expression():
         num_terms -= 1
 
     result = sum(operands)
-    string_operands = map(str, operands)
+    string_operands = list(map(str, operands))
     expression = " + ".join(string_operands)
     return expression, result
 

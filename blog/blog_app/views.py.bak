@@ -7,7 +7,7 @@ from django.template.context_processors import csrf
 from django.core.urlresolvers import reverse
 from django.contrib.syndication.views import Feed
 # from django.contrib.auth.decorators import login_required
-from .forms import ContactForm
+from forms import ContactForm
 
 # cbv
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
@@ -16,7 +16,7 @@ from blog_app.models import Entry, Category
 
 def entries_index(request):
     entries = Entry.objects.all().filter(status=1),
-    print(entries[0])
+    print entries[0]
     return render(request, 'blog_app/entry_index.html',
                   {'entry_list': Entry.objects.all().filter(status=1),
                    'subtitle': 'Latest Entries'})
@@ -98,7 +98,7 @@ def produce_expression():
         num_terms -= 1
 
     result = sum(operands)
-    string_operands = list(map(str, operands))
+    string_operands = map(str, operands)
     expression = " + ".join(string_operands)
     return expression, result
 
