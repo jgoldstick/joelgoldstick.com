@@ -1,3 +1,3 @@
 # joelgoldstick.com
 
-This is a simple blog application using django 1.9 and python 2.7
+Simple blog application using python 3 and django 3
