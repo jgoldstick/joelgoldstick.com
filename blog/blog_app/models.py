@@ -14,7 +14,7 @@ class Category(models.Model):
             help_text="Suggested value generated from title. Must be unique.")
     description = models.CharField(max_length=100)
 
-    def __unicode__(self):
+    def __str__(self):
         return self.title
 
     class Meta:
@@ -45,7 +45,7 @@ class Entry(models.Model):
     body_html = models.TextField(editable=False, blank=True)
     pub_date = models.DateTimeField(default=datetime.datetime.now)
     modified_date = models.DateTimeField(default=datetime.datetime.now)
-    author = models.ForeignKey(User)
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
     featured = models.BooleanField(default=False)
     status = models.IntegerField(choices=STATUS_CHOICES, default=LIVE_STATUS)
     categories = models.ManyToManyField(Category)
@@ -64,7 +64,7 @@ class Entry(models.Model):
         verbose_name_plural = "Entries"
         ordering = ['-pub_date']
 
-    def __unicode__(self):
+    def __str__(self):
         return self.title
 
     def get_absolute_url(self):
@@ -94,7 +94,7 @@ class Link(models.Model):
     description = models.TextField(blank=True)
     description_html = models.TextField(blank=True)
     url = models.URLField(unique=True)
-    posted_by = models.ForeignKey(User)
+    posted_by = models.ForeignKey(User, on_delete=models.CASCADE)
     pub_date = models.DateTimeField(default=datetime.datetime.now)
     slug = models.SlugField(unique_for_date='pub_date')
     # tags = TagField()
