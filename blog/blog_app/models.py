@@ -84,7 +84,7 @@ class Entry(models.Model):
 
 class EntryAdmin(admin.ModelAdmin):
     prepopulated_fields = {'slug': ['title']}
-    list_display = ['title', 'status', 'pub_date']
+    list_display = ['title', 'status', 'pub_date', 'modified_date']
 
 admin.site.register(Entry, EntryAdmin)
 
