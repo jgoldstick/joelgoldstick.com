@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib import admin
 from markdown import markdown
-# from markdown.extensions import codehilite
+from markdown.extensions import codehilite
 import datetime
 from django.contrib.auth.models import User
 
@@ -43,20 +43,20 @@ class Entry(models.Model):
     excerpt_html = models.TextField(editable=False, blank=True)
     body = models.TextField()
     body_html = models.TextField(editable=False, blank=True)
-    pub_date = models.DateTimeField(default=datetime.datetime.now)
-    modified_date = models.DateTimeField(default=datetime.datetime.now)
+    #pub_date = models.DateTimeField(default=datetime.datetime.now)
+    pub_date = models.DateTimeField(auto_now_add=True)
+    modified_date = models.DateTimeField(auto_now=True)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     featured = models.BooleanField(default=False)
     status = models.IntegerField(choices=STATUS_CHOICES, default=LIVE_STATUS)
     categories = models.ManyToManyField(Category)
-    # tags = TagField()
 
     def save(self, force_insert=False, force_update=False):
-        self.body_html = markdown(self.body, ['codehilite', 'headerid'])
+        #self.body_html = markdown(self.body, extensions=['codehilite', 'headerid'])
         self.body_html = markdown(self.body, output_format='html5',
                                   extensions=['codehilite', ])
         if self.excerpt:
-            self.excerpt_html = markdown(self.excerpt, ['codehilite'])
+            self.excerpt_html = markdown(self.excerpt, extensions=['codehilite'])
         super(Entry, self).save(force_insert, force_update)
         # super(Entry, self).save()
 
@@ -88,7 +88,7 @@ class EntryAdmin(admin.ModelAdmin):
 
 admin.site.register(Entry, EntryAdmin)
 
-
+"""
 class Link(models.Model):
     title = models.CharField(max_length=250)
     description = models.TextField(blank=True)
@@ -100,3 +100,4 @@ class Link(models.Model):
     # tags = TagField()
     enable_comments = models.BooleanField(default=False)
     post_elsewhere = models.BooleanField(default=False)
+"""

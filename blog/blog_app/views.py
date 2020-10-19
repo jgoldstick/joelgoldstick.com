@@ -148,4 +148,5 @@ def contact(request):
 
     c = {'subtitle': 'Contact Us', 'form': form, 'test': test_expression}
     c.update(csrf(request))
-    return render_to_response('blog_app/contact_form.html', c)
+    #return render_to_response('blog_app/contact_form.html', c)
+    return render(None, 'blog_app/contact_form.html', c)

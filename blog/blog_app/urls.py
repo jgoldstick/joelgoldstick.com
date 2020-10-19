@@ -1,12 +1,13 @@
 #from django.conf.urls import patterns, url, include
-from django.urls import path
+from django.urls import path, re_path
 from blog_app import views
 from django.contrib.auth.decorators import login_required
 
 urlpatterns = [
     #url(r'^$', views.entries_index, name="index"),
     path('', views.entries_index, name="index"),
-    #url(r'^(?P<year>\d{4})/(?P<month>\w{3})/(?P<day>\d{2})/(?P<slug>[-\w]+)/$', views.entry_detail),
+    re_path(r'(?P<year>\d{4})/(?P<month>\w{3})/(?P<day>\d{2})/(?P<slug>[-\w]+)/$', views.entry_detail),
+    path('<int:year>/<str:month>/<int:day>/<str:slug>', views.entry_detail),
     #url(r'^categories/$', views.category_list),
     path('categories/', views.category_list),
     #url(r'^categories/(?P<category>\w+)/$', views.entries_by_category),
@@ -16,6 +17,7 @@ urlpatterns = [
     path('feed/latest/', views.LatestEntriesFeed()),
     #url(r'^feed/latest/$', views.LatestEntriesFeed()),
     #url(r'^cbv/list/$', views.EntryList.as_view()),
+    path('contact/', views.contact),
     path('cbv/list/', views.EntryList.as_view()),
     #url(r'^cbv/create/$', login_required(views.EntryCreate.as_view())),
     path('cbv/create/', login_required(views.EntryCreate.as_view())),
