@@ -9,10 +9,10 @@ class ContactForm(forms.Form):
     cc_myself = forms.BooleanField(required=False)
 
     def __init__(self, *args, **kwargs):
-        self.request = kwargs.pop('request', None)
+        self.request = kwargs.pop("request", None)
         super(ContactForm, self).__init__(*args, **kwargs)
 
     def clean_test_result(self):
-        data = self.cleaned_data['test_result']
-        if self.request.session['last_answer'] != data:
+        data = self.cleaned_data["test_result"]
+        if self.request.session["last_answer"] != data:
             raise forms.ValidationError("You didn't get the math right!")

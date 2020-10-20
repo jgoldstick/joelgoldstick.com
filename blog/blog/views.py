@@ -3,4 +3,4 @@ from django.shortcuts import redirect
 
 
 def blog(request):
-    return redirect('/blog/')
+    return redirect("/blog/")

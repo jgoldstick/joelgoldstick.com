@@ -6,38 +6,38 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('blog_app', '0001_initial'),
+        ("blog_app", "0001_initial"),
     ]
 
     operations = [
         migrations.RemoveField(
-            model_name='entry',
-            name='author',
+            model_name="entry",
+            name="author",
         ),
         migrations.RemoveField(
-            model_name='entry',
-            name='categories',
+            model_name="entry",
+            name="categories",
         ),
         migrations.RemoveField(
-            model_name='entry',
-            name='featured',
+            model_name="entry",
+            name="featured",
         ),
         migrations.RemoveField(
-            model_name='entry',
-            name='status',
+            model_name="entry",
+            name="status",
         ),
         migrations.RemoveField(
-            model_name='link',
-            name='enable_comments',
+            model_name="link",
+            name="enable_comments",
         ),
         migrations.AlterField(
-            model_name='entry',
-            name='modified_date',
+            model_name="entry",
+            name="modified_date",
             field=models.DateTimeField(auto_now=True),
         ),
         migrations.AlterField(
-            model_name='entry',
-            name='pub_date',
+            model_name="entry",
+            name="pub_date",
             field=models.DateTimeField(auto_now_add=True),
         ),
     ]
