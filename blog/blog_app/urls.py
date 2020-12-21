@@ -18,4 +18,5 @@ urlpatterns = [
     path("cbv/create/", login_required(views.EntryCreate.as_view())),
     path("cbv/update/<int:pk>)/", login_required(views.EntryUpdate.as_view())),
     path("cbv/delete", views.EntryList.as_view()),
+    path("upload", views.upload_file, name ="upload_file")
 ]

@@ -16,3 +16,8 @@ class ContactForm(forms.Form):
         data = self.cleaned_data["test_result"]
         if self.request.session["last_answer"] != data:
             raise forms.ValidationError("You didn't get the math right!")
+
+
+class UploadFileForm(forms.Form):
+    title = forms.CharField(max_length=50)
+    file = forms.FileField()

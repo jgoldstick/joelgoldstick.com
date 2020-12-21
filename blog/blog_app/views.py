@@ -1,14 +1,13 @@
 # Create your views here.
 from django.http import HttpResponseRedirect
 
-# from django.shortcuts import render_to_response, render
 from django.shortcuts import render
 
-# from django.core.context_processors import csrf
-# above depricated, and gone in 1.10
 from django.template.context_processors import csrf
 from django.urls import reverse
 from django.contrib.syndication.views import Feed
+from django.contrib.auth.decorators import login_required
+from .forms import UploadFileForm
 
 # from django.contrib.auth.decorators import login_required
 from .forms import ContactForm
@@ -20,6 +19,8 @@ from blog_app.models import Entry, Category
 
 def entries_index(request):
     entries = (Entry.objects.all().filter(status=1),)
+    entries = (Entry.objects.all())
+
     print(entries[0])
     return render(
         request,
@@ -168,3 +169,31 @@ def contact(request):
     c = {"subtitle": "Contact Us", "form": form, "test": test_expression}
     c.update(csrf(request))
     return render(None, "blog_app/contact_form.html", c)
+
+
+
+# Imaginary function to handle an uploaded file.
+# from https://docs.djangoproject.com/en/3.1/topics/http/file-uploads/
+
+#from somewhere import handle_uploaded_file
+def handle_uploaded_file(f):
+    print("In handle_uploaded_file")
+    with open('test.md', 'wb+') as destination:
+        for chunk in f.chunks():
+            destination.write(chunk)
+    print("wrote test.md")
+
+
+def upload_file(request):
+    print("in upload_file")
+    if request.method == 'POST':
+        print("request.method == 'POST'")
+        form = UploadFileForm(request.POST, request.FILES)
+        if form.is_valid():
+            print("form is valid")
+            handle_uploaded_file(request.FILES['file'])
+            return HttpResponseRedirect('upload')
+    else:
+        print("in upload_file else clause")
+        form = UploadFileForm()
+    return render(request, 'blog_app/upload_form.html', {'form': form})
