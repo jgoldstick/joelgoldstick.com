@@ -12,6 +12,7 @@
         {% else %}
         <p class='published-on'>Last Modified on {{entry.pub_date|date:"F j, Y"}}</p>
         {% endif %}
+        <p class="status">{{entry.status}}</p>
         {{ entry.body_html|safe}}
     {% endblock %}
 

@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+    {% block head %}
+        <title>joelgoldsick.com - {{entry.title}}</title>
+    {% endblock %}
+    {% block content %}
+
+    <form action="{% url 'upload_file' %}" method="POST" enctype="multipart/form-data"><ul>{{ form.as_ul }}</ul>{% csrf_token %}
+   <input type="submit" value="Go" />
+</form>
+    {% endblock %}
+
+
