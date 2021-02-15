@@ -147,7 +147,7 @@ def contact(request):
         form = ContactForm(request.POST, request=request)
         if form.is_valid():  # All validation rules pass
             cd = form.cleaned_data
-            recipients = ["joel.goldstick@gmail.com"]
+            recipients = ["joelgoldstick.com@gmail.com"]
             if cd["cc_myself"]:
                 recipients.append(cd["sender"])
 
